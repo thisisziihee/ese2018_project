@@ -2,20 +2,22 @@
 #include<time.h>
 #include<signal.h>
 #include<unistd.h>
-
+#include <stdlib.h>
 void reset_timer();
 void stop_timer();
 void restart_timer();
 void timer();
 int createTimer(timer_t *imerID, int sec, int msec);
 
+int stopflag=0;
+
 void timer() // Timer to be recalled according to the timer interval
 {
-  printf("Time's UP!\n");
+  printf(" Time's UP!\n");
+  exit(0);
 }
 
-
-int createTimer( timer_t *timerID, int sec, int msec )
+int createTimer( timer_t *timerID, int sec, int msec)
 {
     struct sigevent         te;
     struct itimerspec       its;
@@ -36,34 +38,38 @@ int createTimer( timer_t *timerID, int sec, int msec )
     te.sigev_signo = sigNo;
     te.sigev_value.sival_ptr = timerID;
     timer_create(CLOCK_REALTIME, &te, timerID);
+
     its.it_interval.tv_sec = sec;
-    its.it_interval.tv_nsec = msec * 1000000;
+    its.it_interval.tv_nsec = msec;
     its.it_value.tv_sec = sec;
-    its.it_value.tv_nsec = msec * 1000000;
+    its.it_value.tv_nsec = msec;
     timer_settime(*timerID, 0, &its, NULL);
     return 0;
 }
 
 void reset_timer()
 {
-  printf("reset the timer (unit : sec) :  ");
-  int sec_;
-  sec_ = getchar();
-  printf("%d",sec_);
+  printf(" reset timer(unit:sec) : ");
+  int mysec;
+  scanf("%d",&mysec);
+  printf(" you set the %d sec\n",mysec);
   timer_t timerID;
-  createTimer(&timerID,sec_,0);
+  while( stopflag != 1 )
+  {
+    createTimer(&timerID,mysec,0);
+  }
   return;
 }
 
 void stop_timer()
 {
-  printf("stop timer\n");
+  printf(" stop timer\n");
   return;
 }
 
 void restart_timer()
 {
-  printf("restart timer\n");
+  printf(" restart timer\n");
   return;
 }
 
@@ -81,6 +87,7 @@ int main()
         reset_timer();
         break;
       case 'S' :
+	stopflag = 1;
         stop_timer();
         break;
       case 'T' :
