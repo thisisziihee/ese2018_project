@@ -9,6 +9,7 @@ void first_screen(void);
 void start_stopwatch(void);
 void reset_stopwatch(void);
 void save_stopwatch(void);
+void labtime_stopwatch(void);
 int createTimer( timer_t *timerID, int sec, int msec );
 
 timer_t _timerID;
@@ -46,6 +47,12 @@ void reset_stopwatch() //  스탑워치 초기화
     first_screen();
     return;
 }
+
+void labtime_stopwatch() // 랩타임 저장
+{
+    lab[lab_idx++]=time_cnt;
+//    printf("lab[lab_idx]=%d time_cnt=%d",lab[lab_idx-1],time_cnt);
+}
 void save_stopwatch() // 스탑워치 저장
 {
     //int num;
@@ -64,7 +71,7 @@ void timer() // 1초 마다 clear시키면서 화면에 timer를 띄운다.
     if(lab_idx) // lab타임이 있다면
     {
         for(i=0;i<lab_idx;i++)
-            printf("lab %d : %d \n",lab_idx,lab[lab_idx]);
+            printf("lab %d : %d \n",i+1,lab[i]);
     }
 }
 int createTimer( timer_t *timerID, int sec, int msec )  
@@ -117,8 +124,8 @@ int main(void)
         switch(command){
             case 's': start_stopwatch(); break; // timer실행
             case 'd': stop_stopwatch(); break; // timer중단
-            case 'f': reset_stopwatch(); break;
-            //case 'e': lab[lab_idx]=time_cnt; lab_idx++; break;
+            case 'f': reset_stopwatch(); break; // timer reset
+            case 'e': labtime_stopwatch(); break; // timer labtime저장
             //case 'o': save_stopwatch(); break;
            // default: printf("error\n");
         }
