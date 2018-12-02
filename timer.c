@@ -3,6 +3,8 @@
 #include<signal.h>
 #include<unistd.h>
 #include <stdlib.h>
+#include <sys/time.h>
+
 void set_timer();
 void stop_timer();
 void restart_timer();
@@ -14,49 +16,55 @@ struct itimerspec its;
 struct sigaction sa;
 
 timer_t timerID;
-timer_t stoptimer;
-int leftsec;
-
+int mysec;
 
 
 void set_timer()
 {
   printf(" 타이머 시간을 설정하세요 : ");
-  int mysec;
   scanf("%d",&mysec);
   createTimer(&timerID,mysec,0);
-  printf(" %d 초 남았습니다.\n", timer_gettime(timerID, &its));
   return;
 }
 
 void delete_timer()
 {
-  printf("타이머를 강제로 종료합니다.\n");
-  timer_delete(timerID);
-  exit(0);
+  if ( timerID == 0 )
+  {
+    printf("현재 설정된 타이머가 없습니다.\n");
+    return;
+  }
+  else
+  {
+    printf("타이머를 강제로 종료합니다.\n");
+    timer_delete(timerID);
+    exit(0);
+  }
 }
 
 
 void stop_timer()
 {
   printf(" 타이머를 잠시 중단합니다.\n");
-  //현재 남은 시간 받아와서 timr_t stoptimer에 저장
-  /*if( timer_delete(timerID) == 0 )
-  {
-    printf("success\n");
-  }*/
   return;
 }
 
-void restart_timer()
+void resume_timer()
 {
-  printf(" 타이머를 다시 시작합니다.\n");
+
+  if ( timerID == 0 ){
+    printf("현재 대기 중인 타이머가 없습니다.\n");
+    return;
+  }
+  else {
+    printf(" 타이머를 다시 시작합니다.\n");
   // timer_t stoptimer 받아와서 다시 시작
  /* while(1)
   {
     createTimer(&stoptimer,leftsec,0);
   }*/
-  return;
+    return;
+  }
 }
 
 void timer()
@@ -69,7 +77,6 @@ int createTimer( timer_t *timerID, int sec, int msec)
 {
 
   int sigNo = SIGRTMIN;
-  //Handler
   sa.sa_flags = SA_SIGINFO;
   sa.sa_sigaction = timer;
   sigemptyset(&sa.sa_mask);
@@ -91,15 +98,13 @@ int createTimer( timer_t *timerID, int sec, int msec)
   its.it_value.tv_nsec = msec;
 
   timer_settime(*timerID, 0, &its, NULL);
-
   return 0;
 }
 
 int main()
 {
-  printf(" < R : RESET, S : STOP, T : RESTART > 원하는 모드를 선택하세요. \n ");
+  printf(" < D : DELETE, S : SET, T : STOP, R : RESUME >\n  원하는 모드를 선택하세요. \n ");
   int data;
-  //data = getchar();
   while(1)
   {
     data = getchar();
@@ -107,12 +112,12 @@ int main()
     {
       case 'D':
         delete_timer(); break;
-      case 'R' :
-        set_timer(); break;
       case 'S' :
+        set_timer(); break;
+      case 'T' :
         stop_timer(); break;
-      case 'T' : 
-        restart_timer(); break;
+      case 'R' :
+        resume_timer(); break;
       default :	break;
     }
   }
