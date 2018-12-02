@@ -29,6 +29,14 @@ void set_timer()
   return;
 }
 
+void delete_timer()
+{
+  printf("타이머를 강제로 종료합니다.\n");
+  timer_delete(timerID);
+  exit(0);
+}
+
+
 void stop_timer()
 {
   printf(" 타이머를 잠시 중단합니다.\n");
@@ -37,7 +45,7 @@ void stop_timer()
   {
     printf("success\n");
   }*/
-  //return;
+  return;
 }
 
 void restart_timer()
@@ -91,20 +99,22 @@ int main()
 {
   printf(" < R : RESET, S : STOP, T : RESTART > 원하는 모드를 선택하세요. \n ");
   int data;
-  data = getchar();
+  //data = getchar();
   while(1)
   {
+    data = getchar();
     switch(data)
     {
+      case 'D':
+        delete_timer(); break;
       case 'R' :
         set_timer(); break;
       case 'S' :
         stop_timer(); break;
-      case 'T' :
+      case 'T' : 
         restart_timer(); break;
       default :	break;
-     }
-    data=getchar();
+    }
   }
 }
 
