@@ -126,7 +126,7 @@ int main(void)
             case 'd': stop_stopwatch(); break; // timer중단
             case 'f': reset_stopwatch(); break; // timer reset
             case 'e': labtime_stopwatch(); break; // timer labtime저장
-            //case 'o': save_stopwatch(); break;
+            case 'o': save_stopwatch(); break; // save stopwatch
            // default: printf("error\n");
         }
     }
