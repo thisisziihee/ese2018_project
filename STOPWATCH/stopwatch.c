@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <math.h>
 
 void first_screen(void);
 void start_stopwatch(void);
@@ -59,6 +63,7 @@ void save_stopwatch() // 스탑워치 저장
     printf("저장할 lab number: ");
     while(1) {
 	scanf("%d",&num);
+	printf("%d",num);
 	if( num<1 || num>lab_idx) //num이 1보다 작거나 lab_idx보다$
 	{
             printf("\n올바른 lab number를 쓰시오.\n");
@@ -67,32 +72,38 @@ void save_stopwatch() // 스탑워치 저장
 	else
 	    break;
     }
-    char *name;
+    char name[1024];
     printf("\n저장할 이름: ");
     scanf("%s",name);
+    printf("%s",name);
 
     int fd;
     fd=open("labtime.json",O_WRONLY | O_CREAT, 0666);
-
     if( fd == -1 ) // file open error
     {
 	perror("open");
 	exit(0);
     } else {
-	//char buffer[1024];
-	int nb;
-	while(nb=read(0,name,1024))
-	{
-	    write(fd,name,nb);
-	    write(fd,)
-	    write(lab[])
-	}
+	char buf1[1]={'"'};
+	char buf2[1]={':'};
+	char buf3[1]={'\n'};
+	char t[256];
+	sprintf(t,"%d",lab[num-1]);
+	int n=log10(lab[num-1])+1;
+//	printf("n:%d\n",n);
+	
+	write(fd,buf1,1); 
+	write(fd,name,strlen(name)); 
+	write(fd,buf1,1); 
+	write(fd,buf2,1); // "name":
+	write(fd,t,4*(n/4)+(n%4)); // time의 자리수만큼만 쓴다.
+	write(fd,buf3,1); // "name":time
 
-
-}
-
-
-
+	printf("%s strlen(name):%ld\n",name,strlen(name));
+	printf("lab[num-1]:%d, 4--:%d\n",lab[num-1],4*(n/4)+(n%4));
+	close(fd);
+    }
+    return;
 }
 
 // 타이머 주기에 따라 호출될 타이머
