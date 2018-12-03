@@ -55,8 +55,44 @@ void labtime_stopwatch() // 랩타임 저장
 }
 void save_stopwatch() // 스탑워치 저장
 {
-    //int num;
-    //printf("저장할 lab number: ");
+    int num;
+    printf("저장할 lab number: ");
+    while(1) {
+	scanf("%d",&num);
+	if( num<1 || num>lab_idx) //num이 1보다 작거나 lab_idx보다$
+	{
+            printf("\n올바른 lab number를 쓰시오.\n");
+	    printf("저장할 lab number: ");
+	}
+	else
+	    break;
+    }
+    char *name;
+    printf("\n저장할 이름: ");
+    scanf("%s",name);
+
+    int fd;
+    fd=open("labtime.json",O_WRONLY | O_CREAT, 0666);
+
+    if( fd == -1 ) // file open error
+    {
+	perror("open");
+	exit(0);
+    } else {
+	//char buffer[1024];
+	int nb;
+	while(nb=read(0,name,1024))
+	{
+	    write(fd,name,nb);
+	    write(fd,)
+	    write(lab[])
+	}
+
+
+}
+
+
+
 }
 
 // 타이머 주기에 따라 호출될 타이머
