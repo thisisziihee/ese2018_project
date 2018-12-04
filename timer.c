@@ -24,11 +24,9 @@ int get_time()
 {
   time(&now);
   t = localtime(&now);
-  int hour = t->tm_hour;
-  int min = t->tm_min;
-  int sec = t->tm_sec;
+  int hour = t->tm_hour; int min = t->tm_min; int sec = t->tm_sec;
   int val = min*60 + sec;
-  return val;
+  return Val;
 }
 
 void set_timer()
