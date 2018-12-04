@@ -4,20 +4,18 @@
 #include<unistd.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#define SZ_BUFFER 30
 
-void set_timer();
-void stop_timer();
-void restart_timer();
-void timer();
-int get_time();
-int createTimer(timer_t *imerID, int sec, int msec);
+void set_timer(); void stop_timer(); void restart_timer();
+void timer(); int get_time();
+int createTimer(time_t* timerID, int sec, int msec);
 
-struct sigevent te;
-struct itimerspec its;
-struct sigaction sa;
-struct timeval curr;
-time_t timerID;
-time_t now; struct tm *t;
+struct sigevent te; struct itimerspec its; struct sigaction sa;
+struct timeval curr; time_t timerID; time_t now; struct tm *t;
 int mysec; int myVal, time_remaining, elapse_time;
 
 int get_time()
@@ -31,12 +29,35 @@ int get_time()
   return val;
 }
 
+
+void make_ramyeon()
+{
+  char strline[20];
+  int fd = open("ramyeon.json",O_RDONLY);
+  if ( fd == -1 ) {
+    perror("open");
+    exit(0);
+  }
+  else {
+    //예진이가 저장한 json 파일 open 성공
+    printf("ramyeon.json open success\n");
+    // json parsing -> getting name of ramen
+    // choose one
+    // print best time for ramen
+    // ask "do you want start timer"
+    // create timer
+   close(fd);
+   // printf("다음 중 원하는 라면의 이름을 입력하시오.\n");
+  }
+  return;
+}
+
+
 void set_timer()
 {
   printf(" 타이머 시간을 설정하세요 : ");
   scanf("%d",&mysec);
-  createTimer(&timerID,mysec,0);
-  // system("date");
+  createTimer(&timerID, mysec, 0);
   myVal = get_time();
   return;
 }
@@ -51,7 +72,7 @@ void delete_timer()
   else
   {
     printf(" 타이머를 강제로 종료합니다.\n");
-    timer_delete(timerID);
+    timer_delete(&timerID);
     exit(0);
   }
 }
@@ -65,7 +86,7 @@ void stop_timer()
   }
   else
   {
-    timer_delete(timerID);
+    timer_delete(&timerID);
     elapse_time = get_time() - myVal;
     time_remaining = mysec - elapse_time;
     printf(" 타이머를 잠시 중단합니다. %d 초 남았습니다. \n", time_remaining);
@@ -94,7 +115,7 @@ void timer()
   exit(0);
 }
 
-int createTimer( timer_t *timerID, int sec, int msec)
+int createTimer( time_t* timerID, int sec, int msec)
 {
 
   int sigNo = SIGRTMIN;
@@ -123,7 +144,8 @@ int createTimer( timer_t *timerID, int sec, int msec)
 
 int main()
 {
-  printf(" < D : DELETE, S : SET, T : STOP, R : RESUME >\n  원하는 모드를 선택하세요. \n ");
+  system("clear");
+  printf(" < D : DELETE, S : SET, T : STOP, R : RESUME, M : RAMEN >\n  원하는 모드를 선택하세요. \n ");
   int data;
   while(1)
   {
@@ -138,6 +160,8 @@ int main()
         stop_timer(); break;
       case 'R' :
         resume_timer(); break;
+      case 'M' :
+        make_ramyeon(); break;
       default :	break;
     }
   }
