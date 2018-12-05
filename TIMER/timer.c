@@ -32,24 +32,12 @@ int get_time()
 
 void make_ramyeon()
 {
-  char strline[20];
-  int fd = open("ramyeon.json",O_RDONLY);
-  if ( fd == -1 ) {
-    perror("open");
-    exit(0);
-  }
-  else {
-    //예진이가 저장한 json 파일 open 성공
-    printf("ramyeon.json open success\n");
-    // json parsing -> getting name of ramen
-    // choose one
-    // print best time for ramen
-    // ask "do you want start timer"
-    // create timer
-   close(fd);
-   // printf("다음 중 원하는 라면의 이름을 입력하시오.\n");
-  }
-  return;
+  printf("원하는 라면의 이름을 입력하세요.\n");
+  system("cat example.json | jq '.shin'");
+  printf("라면 타이머를 입력해주세요.\n");
+  int data = getchar();
+  createTimer(&timerID,data,0);
+  //printf("shin ramyeon의 가장 맛있게 끓이기 위한 %d초 타이머를 시작하겠습니다.\n",ramyeon_time);
 }
 
 
@@ -89,7 +77,7 @@ void stop_timer()
     timer_delete(&timerID);
     elapse_time = get_time() - myVal;
     time_remaining = mysec - elapse_time;
-    printf(" 타이머를 잠시 중단합니다. %d 초 남았습니다. \n", time_remaining);
+    printf(" 타이머를 잠시 중단합니다. %d 초 남았습니다. \n", (int)time_remaining);
     return;
   }
 }
@@ -132,20 +120,20 @@ int createTimer( time_t* timerID, int sec, int msec)
   te.sigev_notify = SIGEV_SIGNAL;
   te.sigev_signo = sigNo;
   te.sigev_value.sival_ptr = timerID;
-  timer_create(CLOCK_REALTIME, &te, timerID);
+  timer_create(CLOCK_REALTIME, &te,timerID);
 
   its.it_interval.tv_sec = sec;
   its.it_interval.tv_nsec = 0;
   its.it_value.tv_sec = sec;
   its.it_value.tv_nsec = msec;
-  timer_settime(*timerID, 0, &its, NULL);
+  timer_settime(&timerID, 0, &its, NULL);
   return 0;
 }
 
 int main()
 {
   system("clear");
-  printf(" < D : DELETE, S : SET, T : STOP, R : RESUME, M : RAMEN >\n  원하는 모드를 선택하세요. \n ");
+  printf(" < D : DELETE, S : SET, T : STOP, R : RESUME, M : RAMYEON >\n  원하는 모드를 선택하세요. \n ");
   int data;
   while(1)
   {
@@ -165,6 +153,7 @@ int main()
       default :	break;
     }
   }
+  return 0;
 }
 
 
