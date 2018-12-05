@@ -75,34 +75,56 @@ void save_stopwatch() // 스탑워치 저장
     char name[1024];
     printf("\n저장할 이름: ");
     scanf("%s",name);
-    printf("%s",name);
+//    printf("%s",name);
 
     int fd;
-    fd=open("labtime.json",O_WRONLY | O_CREAT, 0666);
+    fd=open("labtime.json", O_RDWR | O_CREAT , 0666);
     if( fd == -1 ) // file open error
     {
 	perror("open");
 	exit(0);
     } else {
-	char buf1[1]={'"'};
-	char buf2[1]={':'};
-	char buf3[1]={'\n'};
-	char t[256];
+	char buffer[1];
+	char buf0[1]={'{'};
+        char buf1[1]={'}'};
+        char buf2[1]={'"'};
+        char buf3[1]={':'};
+        char buf4[1]={','};
+        char t[256];
+	memset(t,0,0);
 	sprintf(t,"%d",lab[num-1]);
-	int n=log10(lab[num-1])+1;
-//	printf("n:%d\n",n);
-	
-	write(fd,buf1,1); 
-	write(fd,name,strlen(name)); 
-	write(fd,buf1,1); 
-	write(fd,buf2,1); // "name":
-	write(fd,t,4*(n/4)+(n%4)); // time의 자리수만큼만 쓴다.
-	write(fd,buf3,1); // "name":time
+        int n=log10(lab[num-1])+1;
 
-	printf("%s strlen(name):%ld\n",name,strlen(name));
-	printf("lab[num-1]:%d, 4--:%d\n",lab[num-1],4*(n/4)+(n%4));
-	close(fd);
+	if(read(fd,buffer,1)==0) {// if file is empty,
+	    write(fd,buf0,1); // {
+	    write(fd,buf2,1); // {"
+	    write(fd,name,strlen(name)); // {"name
+	    write(fd,buf2,1); // {"name"
+	    write(fd,buf3,1); // {"name":
+	    write(fd,buf2,1); // {"name":"}
+	    write(fd,t,4*(n/4)+(n%4)); // time의 자리수만큼만 쓴다.
+	    write(fd,buf2,1); // {"name:"time"
+	    //write(fd,buf1,1); // {"name":"time"}
+	}
+	else { // if file is already exist,
+	    lseek(fd,-1,SEEK_END);
+	// lseek 포인터로 한바이트 앞으로 보내고 씀
+	    write(fd,buf4,1); // {,}
+	    write(fd,buf2,1); // {,"}
+	    write(fd,name,strlen(name)); 
+	    write(fd,buf2,1); // {,"name"}
+	    write(fd,buf3,1); // {,"name":}
+	    write(fd,buf2,1); 
+	    write(fd,t,4*(n/4)+(n%4)); // time의 자리수만큼만 쓴다.
+	    write(fd,buf2,1); // {,"name":"time"}
+
+//	printf("%s strlen(name):%ld\n",name,strlen(name));
+//	printf("lab[num-1]:%d, 4--:%d\n",lab[num-1],4*(n/4)+(n%4));
+	}
+    write(fd,buf1,1); // }
+    close(fd);
     }
+
     return;
 }
 
