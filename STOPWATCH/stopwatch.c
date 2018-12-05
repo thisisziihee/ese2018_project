@@ -10,6 +10,7 @@
 #include <math.h>
 
 void first_screen(void);
+int save_screen(void);
 void start_stopwatch(void);
 void reset_stopwatch(void);
 void save_stopwatch(void);
@@ -25,17 +26,46 @@ int lab_idx=0;
 void first_screen()
 {
     system("clear"); // 화면 clear
-    printf("<스탑워치>\n");
+    printf("< stopwatch >\n");
     printf("\n%d\n",time_cnt);
     printf("\ns:실행, d:중단, e:랩 \n");
     printf("-------------------------\n");
     return;
 }
+
+int save_screen()
+{
+    system("clear");
+    printf("< save mode >\n");
+    if(lab_idx) // lab타임이 있다면
+    {
+        system("clear");
+        for(int i=0;i<lab_idx;i++)
+            printf("lab %d : %d \n",i+1,lab[i]);
+	return 0;
+    }
+    else // lab타임이 없다면
+    {
+        char c;
+        printf("랩타임이 존재하지 않습니다.\n");
+        printf("c:돌아가기\n");
+        scanf("%c",&c);
+        if(c=='c'){
+            first_screen();
+            return -1;
+        }
+    }
+
+
+}
+
+
 void start_stopwatch() // 스탑워치 시작
 {
     createTimer(&_timerID, 1 , 0);
     return;
 }
+
 void stop_stopwatch() // 스탑워치 중단
 {
     timer_delete(_timerID);
@@ -59,11 +89,16 @@ void labtime_stopwatch() // 랩타임 저장
 }
 void save_stopwatch() // 스탑워치 저장
 {
+
+    if(save_screen()==-1){ // labtime이 없음
+	first_screen();
+	return;
+    }
+
     int num;
     printf("저장할 lab number: ");
     while(1) {
 	scanf("%d",&num);
-	printf("%d",num);
 	if( num<1 || num>lab_idx) //num이 1보다 작거나 lab_idx보다$
 	{
             printf("\n올바른 lab number를 쓰시오.\n");
@@ -73,12 +108,11 @@ void save_stopwatch() // 스탑워치 저장
 	    break;
     }
     char name[1024];
-    printf("\n저장할 이름: ");
+    printf("저장할 이름: ");
     scanf("%s",name);
 //    printf("%s",name);
-
     int fd;
-    fd=open("labtime.json", O_RDWR | O_CREAT | O_APPEND , 0666);
+    fd=open("labtime.txt", O_RDWR | O_CREAT | O_APPEND , 0666);
     if( fd == -1 ) // file open error
     {
 	perror("open");
@@ -101,6 +135,8 @@ void save_stopwatch() // 스탑워치 저장
 //	printf("lab[num-1]:%d, 4--:%d\n",lab[num-1],4*(n/4)+(n%4));
     }
     close(fd);
+
+    
     return;
 }
 
