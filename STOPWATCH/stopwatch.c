@@ -9,6 +9,8 @@
 #include <fcntl.h>
 #include <math.h>
 
+#define SZ 256
+
 void first_screen(void);
 int save_screen(void);
 void start_stopwatch(void);
@@ -17,10 +19,11 @@ void save_stopwatch(void);
 void labtime_stopwatch(void);
 int createTimer( timer_t *timerID, int sec, int msec );
 
+
 timer_t _timerID;
 int time_cnt=0;
 char command;
-int lab[100];
+int lab[SZ];
 int lab_idx=0;
 
 void first_screen()
@@ -28,7 +31,7 @@ void first_screen()
     system("clear"); // 화면 clear
     printf("< stopwatch >\n");
     printf("\n%d\n",time_cnt);
-    printf("\ns:실행, d:중단, e:랩 \n");
+    printf("\ns:시작, d:중단, e:랩 \n");
     printf("-------------------------\n");
     return;
 }
@@ -36,10 +39,9 @@ void first_screen()
 int save_screen()
 {
     system("clear");
-    printf("< save mode >\n");
+    printf("< save mode >\n\n");
     if(lab_idx) // lab타임이 있다면
     {
-        system("clear");
         for(int i=0;i<lab_idx;i++)
             printf("lab %d : %d \n",i+1,lab[i]);
 	return 0;
@@ -49,14 +51,14 @@ int save_screen()
         char c;
         printf("랩타임이 존재하지 않습니다.\n");
         printf("c:돌아가기\n");
-        scanf("%c",&c);
-        if(c=='c'){
+	while(1){
+	    scanf("%c",&c);
+	    if(c=='c'){
             first_screen();
             return -1;
-        }
+	    }
+	} 
     }
-
-
 }
 
 
@@ -77,7 +79,7 @@ void reset_stopwatch() //  스탑워치 초기화
     time_cnt=0;
     lab_idx=0;
     timer_delete(_timerID);
-    memset(lab,0,100*sizeof(int));
+    memset(lab,0,SZ*sizeof(int));
     first_screen();
     return;
 }
@@ -91,7 +93,9 @@ void save_stopwatch() // 스탑워치 저장
 {
 
     if(save_screen()==-1){ // labtime이 없음
+	system("clear");
 	first_screen();
+	command = 'd';
 	return;
     }
 
