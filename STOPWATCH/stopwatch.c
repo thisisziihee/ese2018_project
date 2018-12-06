@@ -25,6 +25,7 @@ int time_cnt=0;
 char command;
 int lab[SZ];
 int lab_idx=0;
+int time_flag=0;
 
 void first_screen()
 {
@@ -64,12 +65,20 @@ int save_screen()
 
 void start_stopwatch() // 스탑워치 시작
 {
-    createTimer(&_timerID, 1 , 0);
+    if(time_flag){
+	printf("이미 실행 중입니다.\n");
+    }
+    else
+    {
+	createTimer(&_timerID, 1 , 0);
+	time_flag=1;
+    }
     return;
 }
 
 void stop_stopwatch() // 스탑워치 중단
 {
+    time_flag=0;
     timer_delete(_timerID);
     printf("s:시작, f:리셋, o:랩타임 저장\n");
     return;
@@ -87,6 +96,8 @@ void reset_stopwatch() //  스탑워치 초기화
 void labtime_stopwatch() // 랩타임 저장
 {
     lab[lab_idx++]=time_cnt;
+    printf("lab %d : %d \n",lab_idx,lab[lab_idx-1]);
+
 //    printf("lab[lab_idx]=%d time_cnt=%d",lab[lab_idx-1],time_cnt);
 }
 void save_stopwatch() // 스탑워치 저장
@@ -111,7 +122,7 @@ void save_stopwatch() // 스탑워치 저장
 	else
 	    break;
     }
-    char name[1024];
+    char name[SZ];
     printf("저장할 이름: ");
     scanf("%s",name);
 //    printf("%s",name);
@@ -135,11 +146,12 @@ void save_stopwatch() // 스탑워치 저장
         write(fd,t,4*(n/4)+(n%4)); // time의 자리수만큼만 쓴 $
         write(fd,buf2,1); //name-time\n
 
+	printf("저장완료!\n");
 //	printf("%s strlen(name):%ld\n",name,strlen(name));
 //	printf("lab[num-1]:%d, 4--:%d\n",lab[num-1],4*(n/4)+(n%4));
     }
     close(fd);
-
+    
     
     return;
 }
@@ -149,7 +161,7 @@ void timer() // 1초 마다 clear시키면서 화면에 timer를 띄운다.
 {
     int i=0;
     system("clear"); // 화면 clear
-    printf("<스탑워치>\n");
+    printf("< stopwatch >\n");
     printf("\n%d\n",++time_cnt);
     printf("\nd:중단, e:랩 \n");
     printf("-------------------------\n");
@@ -165,11 +177,10 @@ int createTimer( timer_t *timerID, int sec, int msec )
     struct itimerspec       its;  
     struct sigaction        sa;  
     int                     sigNo = SIGRTMIN;  
-   
+
     /* Set up signal handler. */  
     sa.sa_flags = SA_SIGINFO;  
     sa.sa_sigaction = timer;     // 타이머 호출시 호출할 함수 
-    sigemptyset(&sa.sa_mask);  
   
     if (sigaction(sigNo, &sa, NULL) == -1)  
     {  
@@ -188,7 +199,9 @@ int createTimer( timer_t *timerID, int sec, int msec )
     
     its.it_value.tv_nsec = msec * 1000000;
     timer_settime(*timerID, 0, &its, NULL);  
-   
+
+
+    
     return 0;  
 }
 
@@ -212,7 +225,7 @@ int main(void)
             case 'f': reset_stopwatch(); break; // timer reset
             case 'e': labtime_stopwatch(); break; // timer labtime저장
             case 'o': save_stopwatch(); break; // save stopwatch
-           // default: printf("error\n");
+            default: break;
         }
     }
     
