@@ -78,9 +78,12 @@ void start_stopwatch() // 스탑워치 시작
 
 void stop_stopwatch() // 스탑워치 중단
 {
-    time_flag=0;
-    timer_delete(_timerID);
-    printf("s:시작, f:리셋, o:랩타임 저장\n");
+    if(time_flag){
+    	time_flag=0;
+    	timer_delete(_timerID);
+    	printf("s:시작, f:리셋, o:랩타임 저장\n");
+    }else
+	printf("이미 중단되었습니다.\n");
     return;
 }
 void reset_stopwatch() //  스탑워치 초기화
@@ -116,7 +119,7 @@ void save_stopwatch() // 스탑워치 저장
 	scanf("%d",&num);
 	if( num<1 || num>lab_idx) //num이 1보다 작거나 lab_idx보다$
 	{
-            printf("\n올바른 lab number를 쓰시오.\n");
+            printf("올바른 lab number를 쓰시오.\n");
 	    printf("저장할 lab number: ");
 	}
 	else
@@ -151,7 +154,16 @@ void save_stopwatch() // 스탑워치 저장
 //	printf("lab[num-1]:%d, 4--:%d\n",lab[num-1],4*(n/4)+(n%4));
     }
     close(fd);
-    
+    char c;
+    printf("c:돌아가기\n");
+    while(1){
+        scanf("%c",&c);
+        if(c=='c'){
+            first_screen();
+            break;
+	}
+    }
+
     
     return;
 }
