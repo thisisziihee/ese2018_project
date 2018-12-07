@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-
+void labtime();
 void set_timer(); void stop_timer(); void restart_timer();
 void timerr(); int get_time();
 int createTimer(timer_t* timerID, int sec, int msec);
@@ -40,16 +40,20 @@ void labtime()
     cnt++;
   }
   fclose(f);
-  printf("다음 중 원하는 라면의 이름을 입력하세요.\n");
-  char data[10]; scanf("%s",data); 
+  printf(" 다음 중 원하는 라면의 이름을 입력하세요.\n");
+  char data[10]; scanf("%s",data); int flag =0;
   for(int i=0;i<cnt;i++) {
     if(strcmp(data, ramen[i].name) == 0) {
-      printf("%s %s\n",ramen[i].name, ramen[i].time);
+      flag=1;
+      printf(" %s 의 %s 초 타이머를 시작합니다.\n",ramen[i].name, ramen[i].time);
       mysec = atoi(ramen[i].time);
       createTimer(&_timerID,1,0);
     }
   }
-
+  if (flag == 0) {
+    printf(" 원하는 라면의 타이머가 없습니다. \n");
+    exit(0);
+  }
   return;
 }
 
