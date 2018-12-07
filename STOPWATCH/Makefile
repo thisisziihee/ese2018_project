@@ -1,4 +1,4 @@
-DIR=STOPWATCH/lib STOPWATCH/app
+DIR=lib app
 .PHONY: all clean
 
 
