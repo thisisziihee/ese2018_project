@@ -14,8 +14,8 @@ all:
 		$(MAKE) -C $$d;\
 	done
 
-app: timerapp.c $(S_L)/libfunc_sw.a $(T_L)/libfuncs.a
-	$(CC) $(CFLAGS) -o timerapp timerapp.c -L$(S_L) -lfunc_sw -L$(T_L) -lfuncs \
+app: main.c $(S_L)/libfunc_sw.a $(T_L)/libfuncs.a
+	$(CC) $(CFLAGS) -o app main.c -L$(S_L) -lfunc_sw -L$(T_L) -lfuncs \
 	-I$(S_I) -I$(T_I) -lrt -lm
 
 
@@ -24,4 +24,4 @@ clean:
 	do\
 		$(MAKE) -C $$d clean;\
 	done
-	rm -f *.o
+	rm -f *.o app

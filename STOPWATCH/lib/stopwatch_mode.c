@@ -13,16 +13,16 @@
 #include "main_sw.h"
 
 
-int stopwatch_mode(void)
+int stopwatch_mode()
 {
     
     // 타이머를 만든다
     // 매개변수 1 : 타이머 변수
     // 매개변수 2 : second
     // 매개변수 3 : ms
-
+    
     first_screen(); // 스탑워치 첫 화면
-   while(1)
+    while(1)
     {
         command=getchar();
         // s: 실행, d:중단, f: 리셋, e:랩타임 실행, o:랩타임 저장 x:$
@@ -36,6 +36,7 @@ int stopwatch_mode(void)
             default: break;
         }
     }
+    
     return 0;
 }
 

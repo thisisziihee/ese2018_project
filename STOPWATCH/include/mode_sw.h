@@ -3,6 +3,7 @@
 
 #define SZ 256
 
+
 timer_t _timerID;
 int time_cnt;
 char command;
