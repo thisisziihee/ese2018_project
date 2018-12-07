@@ -8,54 +8,48 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#define SZ 4
+
 
 void set_timer(); void stop_timer(); void restart_timer();
 void timerr(); int get_time();
-int createTimer(time_t* timerID, int sec, int msec);
+int createTimer(timer_t* timerID, int sec, int msec);
 
 struct sigevent te; struct itimerspec its; struct sigaction sa;
-struct timeval curr; time_t _timerID; 
-int mysec; 
+struct timeval curr; timer_t _timerID; 
+int mysec; int cnt;
+
 struct labtime {
   char name[10];
-  int time;
+  char time[3];
 };
-struct labtime ramen[SZ];
 
-
-void get_labtime()
-{
-  FILE *f = fopen("/home/yejin/embeddedsw-2018/project/ese2018_project/STOPWATCH/labtime.txt", "r");
-  int i = 0;
-  for(i=0;i<SZ; i++) {
-    fscanf(f, "%s %d",&ramen[i].name, &ramen[i].time);
-    printf("%s - %d \n", ramen[i].name, ramen[i].time);
-  }
-  fclose(f);
-  return;
-}
+struct labtime ramen[100];
 
 void labtime()
 {
-  get_labtime(); int i=0;
-  for(int i=0; i<SZ;i++) {
-    printf("*%s %d*\n",ramen[i].name, ramen[i].time);
+  FILE *f = fopen("/home/jihee/sw_jihee/project/STOPWATCH/labtime.txt", "r");
+  char buffer[20]; cnt=0;
+
+  while( fgets(buffer,sizeof(buffer),f) !=0) {
+    fputs(buffer, stdout);
+    char* ftr; char* str; int idx;
+    ftr = strtok(buffer, " ");
+    strcpy(ramen[cnt].name,ftr);
+    ftr = strtok( NULL, "\n");
+    strcpy(ramen[cnt].time,ftr);
+    cnt++;
   }
+  fclose(f);
   printf("다음 중 원하는 라면의 이름을 입력하세요.\n");
-  char data;
-  scanf("%s",&data);
-  printf("you chose %s\n ",&data);
-  int j;
-  for(j=0;j<SZ; j++) {
-    if( strcmp(&data,ramen[j].name) == 0) {
-      break;
+  char data[10]; scanf("%s",data); 
+  for(int i=0;i<cnt;i++) {
+    if(strcmp(data, ramen[i].name) == 0) {
+      printf("%s %s\n",ramen[i].name, ramen[i].time);
+      mysec = atoi(ramen[i].time);
+      createTimer(&_timerID,1,0);
     }
   }
-  printf("I found ramen[%d].name = %s, ramen[%d].time = %d\n",j,ramen[j].name,j,ramen[j].time);
-  printf("%s 을 위한 %d 초 타이머를 시작하겠습니다.\n",ramen[j].name, ramen[j].time);
-  mysec=ramen[j].time;
-  createTimer(&_timerID,1,0);
+
   return;
 }
 
@@ -108,7 +102,6 @@ void resume_timer()
   else {
     printf(" %d 초 타이머를 다시 시작합니다.\n",mysec);
     createTimer(&_timerID, 1, 0);
-//    printf("create timer %d초",mysec);
     return;
   }
 }
@@ -116,16 +109,15 @@ void resume_timer()
 void timerr()
 {
   mysec--;
+  printf(" %d초 남았습니다.\n",mysec);
   if( mysec == 0 ){
-    system("date");
     printf(" 타이머가 종료되었습니다.\n");
     exit(0);
   }
 }
 
-int createTimer( time_t* timerID, int sec, int msec)
+int createTimer( timer_t* timerID, int sec, int msec)
 {
-  //printf("this is %d sec\n",sec);
   int sigNo = SIGRTMIN;
   sa.sa_flags = SA_SIGINFO;
   sa.sa_sigaction = timerr;
@@ -155,11 +147,9 @@ int main()
   system("clear");
   printf(" < D : DELETE, S : SET, T : STOP, R : RESUME, L : Labtime >\n  원하는 모드를 선택하세요. \n ");
   int data;
-  while(1)
-  {
+  while(1) {
     data = getchar();
-    switch(data)
-    {
+    switch(data) {
       case 'D':
         delete_timer(); break;
       case 'S' :
