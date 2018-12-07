@@ -26,7 +26,7 @@ void labtime()
   fclose(f);
   printf(" 다음 중 원하는 라면의 이름을 입력하세요.\n");
   char data[10]; scanf("%s",data); int flag =0;
-  for(int i=0;i<cnt;i++) {
+  for(int i=0; i < cnt; i++) {
     if(strcmp(data, ramen[i].name) == 0) {
       flag=1;
       printf(" %s 의 %s 초 타이머를 시작합니다.\n",ramen[i].name, ramen[i].time);
