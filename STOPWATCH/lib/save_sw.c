@@ -1,6 +1,6 @@
 #include"screen_sw.h"
-#include<stdio.h>
-#include<stdlib.h>
+//#include "variable.h"
+
 #include <unistd.h>
 #include <time.h>
 #include <signal.h>
@@ -12,6 +12,13 @@
 #include <fcntl.h>
 #include <math.h>
 
+#define SZ 256
+timer_t _timerID;
+static int time_cnt;
+static char command;
+static int lab[SZ];
+static int lab_idx;
+static int time_flag;
 
 void save_stopwatch() // 스탑워치 저장
 {

@@ -1,3 +1,4 @@
+
 #include <stdlib.h>
 
 void exit_stopwatch()

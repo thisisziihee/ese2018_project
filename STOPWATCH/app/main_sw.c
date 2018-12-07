@@ -1,17 +1,7 @@
 #include "screen_sw.h"
 #include "mode_sw.h"
-#include "main_sw.h"
-#include<stdio.h>
-
-#define SZ 256
-
-timer_t _timerID;
-int time_cnt=0;
-char command;
-int lab[SZ];
-int lab_idx=0;
-int time_flag=0;
-
+//#include "main_sw.h"
+#include "variable.h"
 
 int main(void)
 {

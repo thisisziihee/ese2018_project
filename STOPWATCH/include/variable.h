@@ -1,4 +1,6 @@
-//#include "variable.h"
+#ifndef VARIABLE_H
+#define VARIABLE_H
+
 
 #include <unistd.h>
 #include <time.h>
@@ -13,17 +15,13 @@
 
 #define SZ 256
 timer_t _timerID;
-static int time_cnt;
+static int time_cnt=0;
 static char command;
 static int lab[SZ];
-static int lab_idx;
-static int time_flag;
+static int lab_idx=0;
+static int time_flag=0;
 
-void labtime_stopwatch() // 랩타임 저장
-{
-    lab[lab_idx++]=time_cnt;
-    printf("lab %d : %d \n",lab_idx,lab[lab_idx-1]);
+#endif
 
-    return;
-}
+
 

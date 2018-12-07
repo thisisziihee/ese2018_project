@@ -15,6 +15,7 @@
 void first_screen(void);
 int save_screen(void);
 void start_stopwatch(void);
+void stop_stopwatch(void);
 void reset_stopwatch(void);
 void save_stopwatch(void);
 void labtime_stopwatch(void);
