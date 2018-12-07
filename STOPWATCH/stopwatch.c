@@ -1,3 +1,4 @@
+
 #include <unistd.h>
 #include <time.h>
 #include <signal.h>
@@ -17,6 +18,7 @@ void start_stopwatch(void);
 void reset_stopwatch(void);
 void save_stopwatch(void);
 void labtime_stopwatch(void);
+void exit_stopwatch(void); 
 int createTimer( timer_t *timerID, int sec, int msec );
 
 
@@ -32,7 +34,7 @@ void first_screen()
     system("clear"); // 화면 clear
     printf("< stopwatch >\n");
     printf("\n%d\n",time_cnt);
-    printf("\ns:시작, d:중단, e:랩 \n");
+    printf("\ns:시작, d:중단, e:랩, x:종료\n");
     printf("-------------------------\n");
     return;
 }
@@ -81,7 +83,7 @@ void stop_stopwatch() // 스탑워치 중단
     if(time_flag){
     	time_flag=0;
     	timer_delete(_timerID);
-    	printf("s:시작, f:리셋, o:랩타임 저장\n");
+    	printf("s:시작, f:리셋, o:랩타임 저장, x:종료\n");
     }else
 	printf("이미 중단되었습니다.\n");
     return;
@@ -96,6 +98,11 @@ void reset_stopwatch() //  스탑워치 초기화
     return;
 }
 
+void exit_stopwatch()
+{
+    exit(0);
+    return;
+}
 void labtime_stopwatch() // 랩타임 저장
 {
     lab[lab_idx++]=time_cnt;
@@ -175,7 +182,7 @@ void timer() // 1초 마다 clear시키면서 화면에 timer를 띄운다.
     system("clear"); // 화면 clear
     printf("< stopwatch >\n");
     printf("\n%d\n",++time_cnt);
-    printf("\nd:중단, e:랩 \n");
+    printf("\nd:중단, e:랩, x:종료\n");
     printf("-------------------------\n");
     if(lab_idx) // lab타임이 있다면
     {
@@ -230,12 +237,13 @@ int main(void)
     while(1)
     {
         command=getchar();
-        // s: 실행, d:중단, f: 리셋, e:랩타임 실행, o:랩타임 저장
+        // s: 실행, d:중단, f: 리셋, e:랩타임 실행, o:랩타임 저장 x:강제종료
         switch(command){
             case 's': start_stopwatch(); break; // timer실행
             case 'd': stop_stopwatch(); break; // timer중단
             case 'f': reset_stopwatch(); break; // timer reset
             case 'e': labtime_stopwatch(); break; // timer labtime저장
+	    case 'x': exit_stopwatch(); break; // tiemr 종료
             case 'o': save_stopwatch(); break; // save stopwatch
             default: break;
         }

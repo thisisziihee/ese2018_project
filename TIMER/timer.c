@@ -15,25 +15,13 @@ void timerr(); int get_time();
 int createTimer(time_t* timerID, int sec, int msec);
 
 struct sigevent te; struct itimerspec its; struct sigaction sa;
-struct timeval curr; time_t timerID; time_t now; struct tm *t;
-int mysec; int myVal, time_remaining, elapse_time;
-
+struct timeval curr; time_t _timerID; 
+int mysec; 
 struct labtime {
   char name[10];
   int time;
 };
 struct labtime ramen[SZ];
-
-int get_time()
-{
-  time(&now);
-  t = localtime(&now);
-  int hour = t->tm_hour;
-  int min = t->tm_min;
-  int sec = t->tm_sec;
-  int val = min*60 + sec;
-  return val;
-}
 
 
 void get_labtime()
@@ -66,9 +54,8 @@ void labtime()
   }
   printf("I found ramen[%d].name = %s, ramen[%d].time = %d\n",j,ramen[j].name,j,ramen[j].time);
   printf("%s 을 위한 %d 초 타이머를 시작하겠습니다.\n",ramen[j].name, ramen[j].time);
-  int time_ = ramen[j].time; printf("%d hhh\n",time_);
-  createTimer(&timerID,time_,0);
-  myVal = get_time();
+  mysec=ramen[j].time;
+  createTimer(&_timerID,1,0);
   return;
 }
 
@@ -77,14 +64,13 @@ void set_timer()
 {
   printf(" 타이머 시간을 설정하세요 : ");
   scanf("%d",&mysec);
-  createTimer(&timerID, 1, 0);
-  //myVal = get_time();
+  createTimer(&_timerID, 1, 0);
   return;
 }
 
 void delete_timer()
 {
-  if ( timerID == 0 )
+  if ( _timerID == 0 )
   {
     printf(" 현재 설정된 타이머가 없습니다.\n");
     return;
@@ -92,7 +78,7 @@ void delete_timer()
   else
   {
     printf(" 타이머를 강제로 종료합니다.\n");
-    timer_delete(&timerID);
+    timer_delete(&_timerID);
     exit(0);
   }
 }
@@ -100,15 +86,13 @@ void delete_timer()
 
 void stop_timer()
 {
-  if ( timerID == 0 ) {
+  if ( _timerID == 0 ) {
     printf(" 현재 설정된 타이머가 없습니다.\n");
     return;
   }
   else
   {
-    timer_delete(timerID);
-    //elapse_time = get_time() - myVal;
-    //time_remaining = mysec - elapse_time;
+    timer_delete(_timerID);
     printf(" 타이머를 잠시 중단합니다. %d 초 남았습니다. \n", (int)mysec);
     return;
   }
@@ -117,13 +101,14 @@ void stop_timer()
 void resume_timer()
 {
 
-  if ( timerID == 0 ){
+  if ( _timerID == 0 ){
     printf(" 현재 대기 중인 타이머가 없습니다.\n");
     return;
   }
   else {
     printf(" %d 초 타이머를 다시 시작합니다.\n",mysec);
-    createTimer(&timerID, 1, 0);
+    createTimer(&_timerID, 1, 0);
+//    printf("create timer %d초",mysec);
     return;
   }
 }
@@ -131,7 +116,7 @@ void resume_timer()
 void timerr()
 {
   mysec--;
-  if(mysec==0){
+  if( mysec == 0 ){
     system("date");
     printf(" 타이머가 종료되었습니다.\n");
     exit(0);
@@ -161,7 +146,7 @@ int createTimer( time_t* timerID, int sec, int msec)
   its.it_interval.tv_nsec = 0;
   its.it_value.tv_sec = sec;
   its.it_value.tv_nsec = msec;
-  timer_settime(&timerID, 0, &its, NULL);
+  timer_settime(*timerID, 0, &its, NULL);
   return 0;
 }
 
