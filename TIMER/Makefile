@@ -1,14 +1,13 @@
-all: libfuncs.a main_timer
+DIR = lib app
 
-libfuncs.a: *.o
-	ar rv $@ *.o
-
-main_timer: main_timer.o libfuncs.a
-	gcc -g -Wall -o main_timer main_timer.c -L. -lfuncs -lrt
-
-*.o: *.c
-	gcc -g -Wall -c *.c -lrt
+all:
+	@for d in $(DIR); \
+	do \
+		$(MAKE) -C $$d; \
+	done \
 
 clean:
-	rm -f *.o main_timer libfuncs.a
-
+	@for d in $(DIR); \
+	do \
+		$(MAKE) -C $$d clean; \
+	done\
