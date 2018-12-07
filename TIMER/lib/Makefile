@@ -1,4 +1,5 @@
 DIR=../include
+
 libfuncs.a: *.o
 	ar rv $@ *.o
 

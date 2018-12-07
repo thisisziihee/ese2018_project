@@ -12,24 +12,7 @@
 
 int main()
 {
-  system("clear");
-  printf(" < D : DELETE, S : SET, T : STOP, R : RESUME, L : Labtime >\n  원하는 모드를 선택하세요. \n ");
-  int data;
-  while(1) {
-    data = getchar();
-    switch(data) {
-      case 'D':
-        delete_timer(); break;
-      case 'S' :
-        set_timer(); break;
-      case 'T' :
-        stop_timer(); break;
-      case 'R' :
-        resume_timer(); break;
-      case 'L' :
-        labtime(); break;
-      default :	break;
-    }
-  }
+
+  timer_mode();
   return 0;
 }

@@ -36,7 +36,7 @@ void save_stopwatch() // 스탑워치 저장
     printf("저장할 이름: ");
     scanf("%s",name);
     int fd;
-    fd=open("labtime.txt", O_RDWR | O_CREAT | O_APPEND , 0666);
+    fd=open("/home/yejin/embeddedsw-2018/project/ese2018_project/labtime.txt", O_RDWR | O_CREAT | O_APPEND , 0666);
     if( fd == -1 ) // file open error
     {
         perror("open");
