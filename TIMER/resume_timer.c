@@ -17,6 +17,7 @@ void resume_timer()
     return;
   }
   else {
+    stop_flag=0;
     printf(" %d 초 타이머를 다시 시작합니다.\n",mysec);
     createTimer(&_timerID, 1, 0);
     return;

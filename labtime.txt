@@ -1,0 +1,5 @@
+yejin 3
+zz 1
+yejin 12
+gg 15
+x 1
