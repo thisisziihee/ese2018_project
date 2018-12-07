@@ -14,6 +14,7 @@ struct sigevent te;
 struct itimerspec its;  
 struct sigaction sa;  
 
+int stopwatch_mode(void);
 
 void start_stopwatch(void);
 void reset_stopwatch(void);
