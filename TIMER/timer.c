@@ -38,7 +38,7 @@ int get_time()
 
 void get_labtime()
 {
-  FILE *f = fopen("/home/jihee/sw_jihee/project/STOPWATCH/labtime.txt", "r");
+  FILE *f = fopen("/home/yejin/embeddedsw-2018/project/ese2018_project/STOPWATCH/labtime.txt", "r");
   int i = 0;
   for(i=0;i<SZ; i++) {
     fscanf(f, "%s %d",&ramen[i].name, &ramen[i].time);
@@ -67,7 +67,7 @@ void labtime()
   printf("I found ramen[%d].name = %s, ramen[%d].time = %d\n",j,ramen[j].name,j,ramen[j].time);
   printf("%s 을 위한 %d 초 타이머를 시작하겠습니다.\n",ramen[j].name, ramen[j].time);
   int time_ = ramen[j].time; printf("%d hhh\n",time_);
- // createTimer(&timerID,time_,0);
+  createTimer(&timerID,time_,0);
   myVal = get_time();
   return;
 }
@@ -77,8 +77,8 @@ void set_timer()
 {
   printf(" 타이머 시간을 설정하세요 : ");
   scanf("%d",&mysec);
-  createTimer(&timerID, mysec, 0);
-  myVal = get_time();
+  createTimer(&timerID, 1, 0);
+  //myVal = get_time();
   return;
 }
 
@@ -106,10 +106,10 @@ void stop_timer()
   }
   else
   {
-    timer_delete(&timerID);
-    elapse_time = get_time() - myVal;
-    time_remaining = mysec - elapse_time;
-    printf(" 타이머를 잠시 중단합니다. %d 초 남았습니다. \n", (int)time_remaining);
+    timer_delete(timerID);
+    //elapse_time = get_time() - myVal;
+    //time_remaining = mysec - elapse_time;
+    printf(" 타이머를 잠시 중단합니다. %d 초 남았습니다. \n", (int)mysec);
     return;
   }
 }
@@ -122,22 +122,25 @@ void resume_timer()
     return;
   }
   else {
-    printf(" %d 초 타이머를 다시 시작합니다.\n",time_remaining);
-    createTimer(&timerID, time_remaining, 0);
+    printf(" %d 초 타이머를 다시 시작합니다.\n",mysec);
+    createTimer(&timerID, 1, 0);
     return;
   }
 }
 
 void timerr()
 {
-  system("date");
-  printf(" 타이머가 종료되었습니다.\n");
-  exit(0);
+  mysec--;
+  if(mysec==0){
+    system("date");
+    printf(" 타이머가 종료되었습니다.\n");
+    exit(0);
+  }
 }
 
 int createTimer( time_t* timerID, int sec, int msec)
 {
-  printf("this is %d sec\n",sec);
+  //printf("this is %d sec\n",sec);
   int sigNo = SIGRTMIN;
   sa.sa_flags = SA_SIGINFO;
   sa.sa_sigaction = timerr;

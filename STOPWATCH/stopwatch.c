@@ -137,7 +137,7 @@ void save_stopwatch() // 스탑워치 저장
 	exit(0);
     } else {
 //	char buffer[1];
-	char buf1[1]={'-'};
+	char buf1[1]={' '};
         char buf2[1]={'\n'};
         char t[256];
 	memset(t,0,0);

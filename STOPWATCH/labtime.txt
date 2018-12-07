@@ -1,4 +1,4 @@
-yejin-3
-s-1
-zz-1
-yejin-12
+yejin 3
+zz 1
+yejin 12
+gg 15
