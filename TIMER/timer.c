@@ -12,15 +12,17 @@
 
 void set_timer(); void stop_timer(); void restart_timer();
 void timerr(); int get_time();
-int createTimer(time_t* timerID, int sec, int msec);
+int createTimer(timer_t* timerID, int sec, int msec);
 
 struct sigevent te; struct itimerspec its; struct sigaction sa;
-struct timeval curr; time_t _timerID; 
+struct timeval curr; timer_t _timerID; 
 int mysec; 
+
 struct labtime {
   char name[10];
   int time;
 };
+
 struct labtime ramen[SZ];
 
 
@@ -29,7 +31,7 @@ void get_labtime()
   FILE *f = fopen("/home/yejin/embeddedsw-2018/project/ese2018_project/STOPWATCH/labtime.txt", "r");
   int i = 0;
   for(i=0;i<SZ; i++) {
-    fscanf(f, "%s %d",&ramen[i].name, &ramen[i].time);
+    fscanf(f, "%s %d",ramen[i].name, &ramen[i].time);
     printf("%s - %d \n", ramen[i].name, ramen[i].time);
   }
   fclose(f);
@@ -123,7 +125,7 @@ void timerr()
   }
 }
 
-int createTimer( time_t* timerID, int sec, int msec)
+int createTimer( timer_t* timerID, int sec, int msec)
 {
   //printf("this is %d sec\n",sec);
   int sigNo = SIGRTMIN;

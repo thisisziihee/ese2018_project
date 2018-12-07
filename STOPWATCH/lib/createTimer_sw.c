@@ -1,6 +1,3 @@
-
-//#include "variable.h"
-
 #include <unistd.h>
 #include <time.h>
 #include <signal.h>
@@ -11,15 +8,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <math.h>
-
-#define SZ 256
-timer_t _timerID;
-static int time_cnt;
-static char command;
-static int lab[SZ];
-static int lab_idx;
-static int time_flag;
-
+#include "mode_sw.h"
 
 // 타이머 주기에 따라 호출될 타이머
 void timer() // 1초 마다 clear시키면서 화면에 timer를 띄운다.
@@ -38,10 +27,8 @@ void timer() // 1초 마다 clear시키면서 화면에 timer를 띄운다.
 }
 int createTimer( timer_t *timerID, int sec, int msec )  
 {  
-    struct sigevent         te;  
-    struct itimerspec       its;  
-    struct sigaction        sa;  
-    int                     sigNo = SIGRTMIN;  
+
+    int sigNo = SIGRTMIN;  
 
     /* Set up signal handler. */  
     sa.sa_flags = SA_SIGINFO;  

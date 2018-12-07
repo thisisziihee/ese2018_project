@@ -1,6 +1,3 @@
-
-#include "variable.h"
-
 #include <unistd.h>
 #include <time.h>
 #include <signal.h>
@@ -11,14 +8,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <math.h>
+#include "mode_sw.h"
 
-#define SZ 256
-timer_t _timerID;
-static int time_cnt;
-static char command;
-static int lab[SZ];
-static int lab_idx;
-static int time_flag;
 
 void stop_stopwatch() // 스탑워치 중단
 {
