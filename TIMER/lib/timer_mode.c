@@ -29,7 +29,7 @@ int timer_mode()
       case 'r' :
         resume_timer(); break;
       case 'l' :
-        labtime(); break;
+        laptime(); break;
       default :	break;
     }
   }

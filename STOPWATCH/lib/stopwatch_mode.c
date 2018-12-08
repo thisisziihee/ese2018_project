@@ -10,7 +10,6 @@
 #include <math.h>
 #include "screen_sw.h"
 #include "mode_sw.h"
-#include "main_sw.h"
 
 
 int stopwatch_mode()
@@ -30,7 +29,7 @@ int stopwatch_mode()
             case 's': start_stopwatch(); break; // timer실행
             case 'd': stop_stopwatch(); break; // timer중단
             case 'f': reset_stopwatch(); break; // timer reset
-            case 'e': labtime_stopwatch(); break; // timer labtime저$
+            case 'e': laptime_stopwatch(); break; // timer labtime저$
             case 'x': exit_stopwatch(); break; // tiemr 종료
             case 'o': save_stopwatch(); break; // save stopwatch
             default: break;

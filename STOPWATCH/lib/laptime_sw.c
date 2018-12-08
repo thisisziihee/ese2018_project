@@ -11,10 +11,10 @@
 #include "mode_sw.h"
 
 
-void labtime_stopwatch() // 랩타임 저장
+void laptime_stopwatch() // 랩타임 저장
 {
-    lab[lab_idx++]=time_cnt;
-    printf("lab %d : %d \n",lab_idx,lab[lab_idx-1]);
+    lap[lap_idx++]=time_cnt;
+    printf("lap %d : %d \n",lap_idx,lap[lap_idx-1]);
 
     return;
 }

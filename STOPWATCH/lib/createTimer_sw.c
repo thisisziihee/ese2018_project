@@ -19,10 +19,10 @@ void timer() // 1초 마다 clear시키면서 화면에 timer를 띄운다.
     printf("\n%d\n",++time_cnt);
     printf("\nd:중단, e:랩, x:종료\n");
     printf("-------------------------\n");
-    if(lab_idx) // lab타임이 있다면
+    if(lap_idx) // lab타임이 있다면
     {
-        for(i=0;i<lab_idx;i++)
-            printf("lab %d : %d \n",i+1,lab[i]);
+        for(i=0;i<lap_idx;i++)
+            printf("lap %d : %d \n",i+1,lap[i]);
     }
 }
 int createTimer( timer_t *timerID, int sec, int msec )  

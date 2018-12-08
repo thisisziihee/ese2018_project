@@ -9,9 +9,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include "varitimer.h"
-void labtime()
+void laptime()
 {
-  FILE *f = fopen("/home/yejin/embeddedsw-2018/project/ese2018_project/labtime.txt", "r");
+  FILE *f = fopen("/home/yejin/embeddedsw-2018/project/ese2018_project/laptime.txt", "r");
   char buffer[20]; cnt=0;
 
   while( fgets(buffer,sizeof(buffer),f) !=0) {
