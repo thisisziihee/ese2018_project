@@ -14,8 +14,7 @@
 
 
 int stopwatch_mode()
-{
-    
+{  
     // 타이머를 만든다
     // 매개변수 1 : 타이머 변수
     // 매개변수 2 : second
@@ -36,7 +35,7 @@ int stopwatch_mode()
             default: break;
         }
     }
-    
+ 
     return 0;
 }
 

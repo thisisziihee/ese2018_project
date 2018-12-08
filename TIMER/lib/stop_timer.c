@@ -11,14 +11,14 @@
 #include "varitimer.h"
 void stop_timer()
 {
-  if ( _timerID == 0 ) {
+  if ( _ttimerID == 0 ) {
     printf(" 현재 설정된 타이머가 없습니다.\n");
     return;
   }
   else
   {
     stop_flag = 1;
-    timer_delete(_timerID);
+    timer_delete(_ttimerID);
     printf(" 타이머를 잠시 중단합니다. %d 초 남았습니다. \n", (int)mysec);
     return;
   }

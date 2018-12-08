@@ -31,7 +31,7 @@ void labtime()
       flag=1;
       printf(" %s 의 %s 초 타이머를 시작합니다.\n",ramen[i].name, ramen[i].time);
       mysec = atoi(ramen[i].time);
-      createTimer(&_timerID,1,0);
+      createTimer(&_ttimerID,1,0);
     }
   }
   if (flag == 0) {

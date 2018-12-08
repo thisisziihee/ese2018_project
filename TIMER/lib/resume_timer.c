@@ -12,14 +12,14 @@
 void resume_timer()
 {
 
-  if ( _timerID == 0 || stop_flag == 0){
+  if ( _ttimerID == 0 || stop_flag == 0){
     printf(" 현재 대기 중인 타이머가 없습니다.\n");
     return;
   }
   else {
     stop_flag=0;
     printf(" %d 초 타이머를 다시 시작합니다.\n",mysec);
-    createTimer(&_timerID, 1, 0);
+    createTimer(&_ttimerID, 1, 0);
     return;
   }
 }

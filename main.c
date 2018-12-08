@@ -1,14 +1,7 @@
-#include <unistd.h>
-#include <time.h>
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <math.h>
-
+#include <time.h>
+#include <signal.h>
 #include "mode_sw.h"
 #include "varitimer.h"
 
@@ -24,10 +17,10 @@ int main()
   printf("**                              **\n");
   printf("**********************************\n");
 
-  int data;
+  char mode_data;
   while(1) {
-    data = getchar();
-    switch (data) {
+    mode_data = getchar();
+    switch (mode_data) {
       case 'T' :
         timer_mode(); break;
       case 'S' :

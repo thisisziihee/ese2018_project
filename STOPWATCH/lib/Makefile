@@ -11,5 +11,5 @@ $(LIB): *.o
 	$(CC) $(CFLAGS) -c $< -I$(DIR) *.c -lrt -lm
 
 clean:
-	rm -f $(OBJS) $(LIB)
+	rm -f *.o $(LIB)
 
