@@ -7,4 +7,4 @@ libfuncs.a: *.o
 	gcc -g -Wall -c -I$(DIR) *.c -lrt
 
 clean:
-	rm -f *.o
+	rm -f *.o libfuncs.a

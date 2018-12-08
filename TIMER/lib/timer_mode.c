@@ -16,10 +16,10 @@ int timer_mode()
 
   system("clear");
   printf(" < d : DELETE, s : SET, t : STOP, r : RESUME, l : Labtime >\n  원하는 모드를 선택하세요. \n ");
-  int data;
+  int data_timer;
   while(1) {
-    data = getchar();
-    switch(data) {
+    data_timer= getchar();
+    switch(data_timer) {
       case 'd':
         delete_timer(); break;
       case 's' :
@@ -32,7 +32,6 @@ int timer_mode()
         labtime(); break;
       default :	break;
     }
-  
-  return 0;
   }
+  return 0;
 }

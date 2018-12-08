@@ -13,6 +13,6 @@ void set_timer()
 {
   printf(" 타이머 시간을 설정하세요 : ");
   scanf("%d",&mysec);
-  createTimer(&_timerID, 1, 0);
+  createmyTimer(&_ttimerID, 1, 0);
   return;
 }

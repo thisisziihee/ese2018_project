@@ -12,7 +12,7 @@
 
 void delete_timer()
 {
-  if ( _timerID == 0 )
+  if ( _ttimerID == 0 )
   {
     printf(" 현재 설정된 타이머가 없습니다.\n");
     return;
@@ -20,7 +20,7 @@ void delete_timer()
   else
   {
     printf(" 타이머를 강제로 종료합니다.\n");
-    timer_delete(&_timerID);
+    timer_delete(&_ttimerID);
     exit(0);
   }
 }
