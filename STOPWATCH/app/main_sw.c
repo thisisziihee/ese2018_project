@@ -10,7 +10,6 @@
 #include <math.h>
 #include "screen_sw.h"
 #include "mode_sw.h"
-#include "main_sw.h"
 
 
 int main(void)

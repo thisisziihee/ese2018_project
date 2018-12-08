@@ -13,14 +13,12 @@
 #include "screen_sw.h"
 
 
-//int timer_delete(timer_t timerid);
-
 void reset_stopwatch() //  스탑워치 초기화
 {
     time_cnt=0;
-    lab_idx=0;
+    lap_idx=0;
     timer_delete(_timerID);
-    memset(lab,0,SZ*sizeof(int));
+    memset(lap,0,SZ*sizeof(int));
     first_screen();
     return;
 }

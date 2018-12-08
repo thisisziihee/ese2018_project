@@ -15,13 +15,13 @@ int save_screen()
 {
     system("clear"); 
     printf("< save mode >\n\n");
-    if(lab_idx) // lab타임이 있다면
+    if(lap_idx) // lap타임이 있다면
     {
-        for(int i=0;i<lab_idx;i++)
-            printf("lab %d : %d \n",i+1,lab[i]);
+        for(int i=0;i<lap_idx;i++)
+            printf("lap %d : %d \n",i+1,lap[i]);
         return 0;
     }
-    else // lab타임이 없다면
+    else // lap타임이 없다면
     {
         char c;
         printf("랩타임이 존재하지 않습니다.\n");
