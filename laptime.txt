@@ -1,0 +1,3 @@
+jin 6
+sin 40
+samyang 30

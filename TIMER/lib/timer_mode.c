@@ -15,7 +15,7 @@ int timer_mode()
 {
 
   system("clear");
-  printf(" < d : DELETE, s : SET, t : STOP, r : RESUME, l : Labtime >\n  원하는 모드를 선택하세요. \n ");
+  printf(" < d : DELETE, s : SET, t : STOP, r : RESUME, l : Laptime >\n  원하는 모드를 선택하세요. \n ");
   int data_timer;
   while(1) {
     data_timer= getchar();
